@@ -1,7 +1,8 @@
-read.csv("C:\\Users\\sumit\\OneDrive\\Desktop\\creditcard.csv")-> credit_card
+read.csv("C:\\Users\\sumit0069\\Desktop\\creditcard.csv") -> credit_card
 nrow(credit_card)
 ncol(credit_card)
 str(credit_card)
+dim(credit_card)
 
 credit_card$Class <- as.factor(credit_card$Class)
 
@@ -47,6 +48,9 @@ library(caTools)
 set.seed(123)
 
 dim(credit_card)
+# install.packages("caTools")
+library(caTools)
+
 data_sample = sample.split(credit_card,SplitRatio = 0.80)
 
 train = subset(credit_card,data_sample == TRUE)
@@ -57,12 +61,12 @@ dim(test)
 
 table(train$Class)
  
- n_legit <- 22019
- new_frac_legit <- 0.50
- new_n_total <- n_legit/new_frac_legit
+n_legit <- 22012
+new_frac_legit <- 0.50
+new_n_total <- n_legit/new_frac_legit
 new_n_total 
 
-#install.packages("ROSE")
+# install.packages("ROSE")
 library(ROSE)
 oversampling_result <- ovun.sample(Class ~ .,data= train,method = "over",N=new_n_total,seed = 2019 )
 oversampling_credit <- oversampling_result$data
@@ -86,3 +90,49 @@ undersampled_credit <- undersampling_result$data
 table(undersampled_credit$Class)
 
 ggplot(data = undersampled_credit,aes(x = V1,y = V2,col = Class)) + geom_point(position = position_jitter(width=0.2)) + theme_bw() + scale_colour_manual(values = c("dodgerblue2","red"))
+
+# install.packages("smotefamily")
+library(smotefamily)
+
+table(train$Class)
+
+n0 <- 22012
+n1 <- 35
+r0 <- 0.6
+
+ntimes <- ((1-r0)/r0) * (n0/n1) - 1
+
+smote_output = SMOTE(x = train[,-c(1,31)],target = train$Class,k=5,dup_size = ntimes)
+
+credit_smote <- smote_output$data
+
+colnames(credit_smote)[30] <- "Class"
+
+prop.table(table(credit_smote$Class))
+
+ggplot(train,aes(x=V1,y=V2,color = Class)) + geom_point() + scale_color_manual(values = c('dodgerblue2','red'))
+
+ggplot(credit_smote,aes(x=V1,y=V2,color = Class)) + geom_point() + scale_color_manual(values = c('dodgerblue2','red'))
+
+# install.packages("rpart")
+# install.packages("rpart.plot")
+
+library(rpart)
+library(rpart.plot)
+
+CART_model <- rpart(Class ~ .,credit_smote)
+rpart.plot(CART_model,extra = 0, type = 5 ,tweak = 1.2)
+
+predicted_val <- predict(CART_model,test,type = 'class')
+
+library(caret)
+confusionMatrix(predicted_val,test$Class)
+
+predicted_val <- predict(CART_model,credit_card[,-1],type = 'class')
+confusionMatrix(predicted_val,test$Class)
+
+CART_model <- rpart(Class~ . , train[,-1])
+rpart.plot(CART_model,extra = 0,type = 5,tweak = 1.2)
+
+predicted_val <- predict(CART_model,test[,-1],type='class')
+confusionMatrix(predicted_val,credit_card$Class)
