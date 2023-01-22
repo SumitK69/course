@@ -13,7 +13,7 @@ str(data1)
 
 #----------------------------------------------------------------------------------------------------------------------------------
 
-data2 = read.csv('C:\\Users\\Intellipaat-Team\\Desktop\\DESKTOP\\rcmt\\netflix-prize-data\\combined_data_2.txt', header = FALSE,sep = ",", stringsAsFactors = FALSE)
+data2 = read.csv('C:\\Users\\sumit0069\\Desktop\\combined_data_2.txt', header = FALSE,sep = ",", stringsAsFactors = FALSE)
 
 data2 = data2[,-3]
 
@@ -25,7 +25,7 @@ str(data2)
 
 #-----------------------------------------------------------------------------------------------------------------------------------------------
 
-data3 = read.csv('C:\\Users\\Intellipaat-Team\\Desktop\\DESKTOP\\rcmt\\netflix-prize-data\\combined_data_3.txt', header = FALSE,sep = ",", stringsAsFactors = FALSE)
+data3 = read.csv('C:\\Users\\sumit0069\\Desktop\\combined_data_3.txt', header = FALSE,sep = ",", stringsAsFactors = FALSE)
 
 data3 = data3[,-3]
 
@@ -37,7 +37,7 @@ str(data3)
 
 #--------------------------------------------------------------------------------------------------------------------------------------------
 
-data4 = read.csv('C:\\Users\\Intellipaat-Team\\Desktop\\DESKTOP\\rcmt\\netflix-prize-data\\combined_data_4.txt', header = FALSE,sep = ",", stringsAsFactors = FALSE)
+data4 = read.csv('C:\\Users\\sumit0069\\Desktop\\combined_data_4.txt', header = FALSE,sep = ",", stringsAsFactors = FALSE)
 
 data4 = data4[,-3]
 
@@ -90,11 +90,11 @@ ggplot(data, aes(factor(Rating), y = count, fill=factor(Rating)))+
 
 #To load only first 500000 rows for faster computation
 
-data = read.csv('C:\\Users\\Intellipaat-Team\\Desktop\\DESKTOP\\rcmt\\netflix-prize-data\\netflix_data.csv', stringsAsFactors = FALSE, nrows = 500000)
+data = read.csv('C:\\Users\\sumit0069\\Desktop\\netflix_data.csv', stringsAsFactors = FALSE, nrows = 500000)
 
 
 #To load the movie_titles dataset from its respective location
-movies = read.csv('C:\\Users\\Intellipaat-Team\\Desktop\\DESKTOP\\rcmt\\netflix-prize-data\\movie_titles.csv',encoding = "ISO-8859-1", header = FALSE, stringsAsFactors = FALSE)
+movies = read.csv('C:\\Users\\sumit0069\\Desktop\\movie_titles.csv',encoding = "ISO-8859-1", header = FALSE, stringsAsFactors = FALSE)
 
 colnames(movies) = c('Movie_Id', 'Year', 'Name')
 
